@@ -19,10 +19,10 @@ train_data, validation_data, test_data = main.read_images(data_transforms)
 cnn = CNN(train_data, validation_data, test_data, 8)
 
 
-def receiveTask(receivedJson):
+def receiveTask(receivedJson, machine_id):
     if 'data' in receivedJson and isinstance(receivedJson.get('data'), list):
         for combination in receivedJson.get('data'):
-            processTask(combination)
+            processTask(combination, machine_id)
     else:
         print("O JSON recebido não contém um campo 'data' válido.")
 
@@ -56,16 +56,16 @@ def createJson(status, machine_id):
         return json.dumps({"error": str(e)}, indent=4)
 
 
-def process_task_wrapper(cnn, repl, mn, epochs, lr, wd):
+def process_task_wrapper(cnn, repl, mn, epochs, lr, wd, machine_id):
     from workerServer import sendToGroup
     main = Main()
 
-    taskResult = main.processTask(cnn, repl, mn, epochs, lr, wd)
+    taskResult = main.processTask(cnn, repl, mn, epochs, lr, wd, machine_id)
 
     sendToGroup(taskResult)
 
 
-def processTask(combination):
+def processTask(combination, machine_id):
 
     repl = combination.get('replications')
     mn = combination.get('model_name')
@@ -73,7 +73,7 @@ def processTask(combination):
     lr = combination.get('learning_rate')
     wd = combination.get('weight_decay')
     task = Process(target=process_task_wrapper,
-                   args=(cnn, repl, mn, epochs, lr, wd))
+                   args=(cnn, repl, mn, epochs, lr, wd, machine_id))
     task.start()
     print(f"Processo iniciado: PID={task.pid}, Nome={task.name}")
     print(f"Processos ativos no momento: {len(active_children())}")

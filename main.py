@@ -52,7 +52,7 @@ class Main:
 
         return train_data, validation_data, test_data
 
-    def createJson(self, combination, status, acc_media, rep_max, duration):
+    def createJson(self, combination, status, acc_media, rep_max, duration, machine_id):
         try:
             # Obter o IP da interface de rede principal
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
@@ -62,7 +62,7 @@ class Main:
 
             # Criar o dicionário com os dados
             createdJson = {
-                "machine_id": 'worker-01',
+                "machine_id": machine_id,
                 "combination": combination,
                 "status": status,
                 "acc_media": acc_media,

@@ -33,7 +33,7 @@ def receiveMessage():
 
             if (type(receivedJson) is dict):
                 if receivedJson.get("machine_id") != MACHINE_ID:  # <-
-                    receiveTask(receivedJson)
+                    receiveTask(receivedJson, MACHINE_ID)
 
             else:
                 print("O JSON recebido não é um dicionário válido.")
