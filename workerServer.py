@@ -56,5 +56,5 @@ def generate_unique_id():
 if __name__ == "__main__":
     MACHINE_ID = generate_unique_id()
     print("ID GERADO: " , MACHINE_ID)
-    createdJson = createJson("ONLINE")
+    createdJson = createJson("ONLINE", MACHINE_ID)
     sendToGroup(createdJson)

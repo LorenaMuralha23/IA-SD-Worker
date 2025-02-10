@@ -31,7 +31,7 @@ def sendJson(jsonToSend):
     return jsonToSend
 
 
-def createJson(status):
+def createJson(status, machine_id):
     try:
 
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
@@ -41,7 +41,7 @@ def createJson(status):
         num_cores = os.cpu_count()
 
         createdJson = {
-            "machine_id": 'worker-01',
+            "machine_id": machine_id,
             "ip_address": ip_address,
             "port": 5000,
             "status": status,
