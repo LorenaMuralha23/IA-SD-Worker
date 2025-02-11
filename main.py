@@ -77,7 +77,7 @@ class Main:
         except Exception as e:
             return json.dumps({"error": str(e)}, indent=4)
 
-    def processTask(self, cnn, replications, model_name, epochs, learning_rate, weight_decay):
+    def processTask(self, cnn, replications, model_name, epochs, learning_rate, weight_decay, machine_id):
         from workerServer import sendToGroup
         start_time = time.time()
         acc_media, rep_max = cnn.create_and_train_cnn(
@@ -87,5 +87,5 @@ class Main:
         currentCombination = [model_name, epochs, learning_rate, weight_decay]
         # Ao invés do print, o json gerado é o que deve ser enviado para o front end
         taskResult = self.createJson(
-            currentCombination, 'FINISHED', acc_media, rep_max, duration)
+            currentCombination, 'FINISHED', acc_media, rep_max, duration, machine_id)
         return taskResult
